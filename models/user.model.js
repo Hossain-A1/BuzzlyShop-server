@@ -31,8 +31,9 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      require: true,
-      enum: ["user,seler,admin"],
+      enum: ["user","seler","admin"],
+      default:"user",
+      require: true
     },
   },
   {
@@ -52,11 +53,11 @@ userSchema.statics.signup = async function (
     throw new Error("All feilds must be filled!");
   }
 
-  if (!validator.isEmail) {
+  if (!validator.isEmail(email)) {
     throw new Error("Invalid email.");
   }
 
-  if (!validator.isStrongPassword) {
+  if (!validator.isStrongPassword(password)) {
     throw new Error(
       "Password incorrect. Please make sure your password is at least 8 characters long and contains at least one number, one uppercase letter, one lowercase letter, and one symbol."
     );
